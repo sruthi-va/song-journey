@@ -1,3 +1,4 @@
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -5,6 +6,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+
+logger = logging.getLogger("song_journey")
 
 app = FastAPI(
     title=os.getenv("APP_NAME", "Song Journey API"),
@@ -23,6 +31,5 @@ app.add_middleware(
 
 @app.get("/health")
 def health_check():
+    logger.info("Health check requested")
     return {"status": "healthy"}
-
-os.getenv("APP_NAME", "Song Journey API")
